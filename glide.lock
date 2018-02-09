@@ -1,0 +1,41 @@
+hash: 6397679f6b7e48853e03205945f764a9bd984053b3c4506278b9cc806aa5ca0a
+updated: 2018-02-08T14:04:34.074200633+01:00
+imports:
+- name: github.com/labstack/echo
+  version: fad19bf4ea9727ef6d02e9e0a39b1a2a13a17a6a
+- name: github.com/labstack/gommon
+  version: 57409ada9da0f2afad6664c49502f8c50fbd8476
+  subpackages:
+  - color
+  - log
+- name: github.com/mailru/easyjson
+  version: 32fa128f234d041f196a9f3e0fea5ac9772c08e1
+  subpackages:
+  - buffer
+  - jlexer
+  - jwriter
+- name: github.com/mattn/go-colorable
+  version: 7dc3415be66d7cc68bf0182f35c8d31f8d2ad8a7
+- name: github.com/mattn/go-isatty
+  version: 6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c
+- name: github.com/olivere/elastic
+  version: 1100bad4989ab708e7b2007061c83d800a635f7a
+  subpackages:
+  - config
+  - uritemplates
+- name: github.com/pkg/errors
+  version: 30136e27e2ac8d167177e8a583aa4c3fea5be833
+- name: github.com/valyala/bytebufferpool
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
+- name: github.com/valyala/fasttemplate
+  version: dcecefd839c4193db0d35b88ec65b4c12d360ab0
+- name: golang.org/x/crypto
+  version: d9133f5469342136e669e85192a26056b587f503
+  subpackages:
+  - acme
+  - acme/autocert
+- name: golang.org/x/sys
+  version: 37707fdb30a5b38865cfb95e5aab41707daec7fd
+  subpackages:
+  - unix
+testImports: []

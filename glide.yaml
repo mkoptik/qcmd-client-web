@@ -1,0 +1,4 @@
+package: github.com/mkoptik/qcmd-client-web
+import:
+  - package: github.com/labstack/echo
+  - package: github.com/olivere/elastic
