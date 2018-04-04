@@ -1,72 +1,48 @@
 package main
 
 import (
-	"context"
 	"net/http"
-	"github.com/labstack/echo"
-	"github.com/olivere/elastic"
-	"github.com/labstack/gommon/log"
-	"io"
+	"log"
+	"net/url"
 	"html/template"
+	"io/ioutil"
 )
 
-var elasticClient *elastic.Client
-
-type TemplateRenderer struct {
-	templates *template.Template
+type Page struct {
+	InitialCommands string
 }
 
-func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	if viewContext, isMap := data.(map[string]interface{}); isMap {
-		viewContext["reverse"] = c.Echo().Reverse
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()["search"][0]
+
+	searchQuery := url.Values{}
+	searchQuery.Add("search", queryString)
+
+	response, err := http.Get("http://qcmd.koptik.eu/api/search?" + searchQuery.Encode())
+
+	if err != nil {
+		log.Fatal(err)
 	}
-	return t.templates.ExecuteTemplate(w, name, data)
+
+	defer response.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	t, _ := template.ParseFiles("index.html")
+	data := &Page{
+		InitialCommands: string(bodyBytes),
+	}
+	_ = t.Execute(w, data)
 }
 
 func main() {
-
-	var err error
-	elasticClient, err = elastic.NewClient(
-		elastic.SetURL("http://localhost:9200"),
-		elastic.SetBasicAuth("elastic", "changeme"))
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	e := echo.New()
-	e.GET("/:tag", index)
-	e.GET("/", index)
-	e.Static("/static", "assets")
-	e.HideBanner = true
-	e.Renderer = &TemplateRenderer{
-		templates: template.Must(template.ParseGlob("public/views/index.html")),
-	}
-
-	e.Logger.Fatal(e.Start(":1323"))
+	http.HandleFunc("/search", indexHandler)
+	log.Printf("Starting http server on port 8888")
+	log.Fatal(http.ListenAndServe(":8888", nil))
 }
 
-type Command struct {
 
-}
-
-func index(c echo.Context) error {
-
-	tag := c.Param("tag")
-	if len(tag) == 0 {
-		tag = "Martin"
-	}
-
-	ctx := context.Background()
-	searchResults, err := elasticClient.Search("commands").Do(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-	_ = searchResults
-
-	return c.Render(http.StatusOK, "index.html", map[string]interface{}{
-		"name": tag,
-	})
-
-}
 
