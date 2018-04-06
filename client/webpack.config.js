@@ -1,28 +1,25 @@
 const Webpack = require('webpack');
 const Path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const isProduction = process.argv.indexOf('-p') >= 0;
-const outPath = Path.join(__dirname, './dist');
+const outPath = Path.join(__dirname, './dist/');
 const sourcePath = Path.join(__dirname, './src');
 
 module.exports = {
     context: sourcePath,
     entry: {
-        main: './index.tsx',
+        client: './index.tsx',
         vendor: [
             'react',
             'react-dom',
-            'react-redux',
-            'react-router',
-            'redux'
+            'react-router'
         ]
     },
     output: {
         path: outPath,
         publicPath: '/',
-        filename: 'bundle.js',
+        filename: '[name].js',
         libraryTarget: 'var',
         library: 'QcmdClientEntryPoint'
     },
@@ -39,11 +36,8 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: isProduction
-                    ? ['awesome-typescript-loader?module=es6']
-                    : [
-                        'react-hot-loader/webpack',
-                        'awesome-typescript-loader'
-                    ]
+                    ? ['awesome-typescript-loader?module=es5']
+                    : ['react-hot-loader/webpack', 'awesome-typescript-loader']
             },
             // css
             {
@@ -58,7 +52,7 @@ module.exports = {
                                 modules: true,
                                 sourceMap: !isProduction,
                                 importLoaders: 1,
-                                localIdentName: '[local]__[hash:base64:5]'
+                                localIdentName: '[local]'
                             }
                         },
                         {
@@ -70,7 +64,7 @@ module.exports = {
                                     require('postcss-url')({url: "inline"}),
                                     require('postcss-cssnext')(),
                                     require('postcss-reporter')(),
-                                    require('postcss-browser-reporter')({disabled: isProduction})
+                                    require('postcss-browser-reporter')({disabled: isProduction}),
                                 ]
                             }
                         }
@@ -103,9 +97,6 @@ module.exports = {
         new ExtractTextPlugin({
             filename: 'styles.css',
             disable: !isProduction
-        }),
-        new HtmlWebpackPlugin({
-            template: 'index.html'
         })
     ],
     devServer: {

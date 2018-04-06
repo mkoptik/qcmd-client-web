@@ -2,3 +2,4 @@ vendor
 *.iml
 .idea
 node_modules
+client/dist
