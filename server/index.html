@@ -1,9 +1,20 @@
 <html>
 <head>
-    {{ .InitialCommands }}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="http://localhost:3000/vendor.bundle.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/client.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            QcmdClientEntryPoint.init("root", {{ .InitialCommands }})
+        })
+    </script>
+
 </head>
 <body>
-    <h1>Hello </h1>
-    <p></p>
+    <div id="root"></div>
 </body>
 </html>

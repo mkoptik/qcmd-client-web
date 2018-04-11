@@ -13,7 +13,9 @@ module.exports = {
         vendor: [
             'react',
             'react-dom',
-            'react-router'
+            'react-router',
+            'react-autosuggest',
+            'axios'
         ]
     },
     output: {

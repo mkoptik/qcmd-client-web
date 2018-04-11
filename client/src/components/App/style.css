@@ -1,0 +1,42 @@
+body {
+    background-color: #ebebeb;
+}
+
+.autosuggest-container {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+}
+
+.autosuggest-container .input {
+    width: 100%;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 0 19px 0 #00000045;
+    border: 0;
+    outline: none;
+}
+
+.suggestions-list {
+    list-style-type: none;
+    padding: 0;
+    background-color: #fff;
+    margin-top: 10px;
+    box-shadow: 0 0 19px 0 #00000045;
+    border-radius: 5px;
+}
+
+.suggestions-list .suggestion {
+    padding: 8px 15px;
+}
+
+.suggestions-list .suggestion .command-text {
+    font-size: 11px;
+    color: #848484;
+}
+
+.suggestions-list .suggestion.suggestion--highlighted {
+    background-color: #e2e2e2;
+}
+
