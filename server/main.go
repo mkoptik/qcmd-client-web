@@ -19,7 +19,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	searchQuery := url.Values{}
 	searchQuery.Add("search", queryString)
 
-	response, err := http.Get("http://qcmd.koptik.eu/api/search?" + searchQuery.Encode())
+	response, err := http.Get("https://qcmd.koptik.eu/api/search?" + searchQuery.Encode())
 
 	if err != nil {
 		log.Fatal(err)
@@ -31,7 +31,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	t, _ := template.ParseFiles("index.html")
+	t, _ := template.ParseFiles("templates/index.html")
 	data := &Page{
 		InitialCommands: template.JS(bodyBytes),
 	}
@@ -39,6 +39,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/search", indexHandler)
 	log.Printf("Starting http server on port 8888")
 	log.Fatal(http.ListenAndServe(":8888", nil))
