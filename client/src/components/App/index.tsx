@@ -33,6 +33,7 @@ export class App extends React.Component<AppProps, AppState> {
     };
 
     render() {
+        const commands = this.state.foundCommands.length > 0 ? this.state.foundCommands : this.props.initialCommands;
         return (
             <div className={style.normal}>
                 <div id={style.content}>
@@ -40,7 +41,7 @@ export class App extends React.Component<AppProps, AppState> {
                         <div>
                             <input className="search-input" type="text" onChange={e => this.inputTextChanged(e.currentTarget.value)} placeholder="Search for command" />
                             <div className="commands-list">
-                                {this.state.foundCommands.map(c => this.renderCommand(c))}
+                                {commands.map(c => this.renderCommand(c))}
                             </div>
                         </div>
                     </BrowserRouter>
